@@ -1,0 +1,14 @@
+# Throttling Batch processing
+
+This example shows how batch processing Kafka listener can throttle to support
+batch processing of low priority messages.
+
+## Kafka Listener Pause
+
+In the example we pause a Kafka listener after processing a batch,
+this triggers the underlying Kafka consumer to pause and do not poll messages from Kafka until the listener is resumed.
+
+## Realtime and batch listeners
+
+In the example, there are 2 listeners one for batch processing with throttling and the other one for realtime processing.
+For more details check the class `KafkaProcessors`
