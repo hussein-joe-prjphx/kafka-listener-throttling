@@ -50,7 +50,7 @@ import com.common.Foo2;
 public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args).close();
+		SpringApplication.run(Application.class, args);
 	}
 
 	/*
@@ -90,8 +90,7 @@ public class Application {
 	@Profile("default") // Don't run from test(s)
 	public ApplicationRunner runner() {
 		return args -> {
-			System.out.println("Hit Enter to terminate...");
-			System.in.read();
+			System.out.println("Application started...");
 		};
 	}
 

@@ -20,8 +20,6 @@ import com.common.Bar2;
 import com.common.Foo2;
 import org.apache.kafka.common.utils.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
 import org.springframework.kafka.listener.MessageListenerContainer;
@@ -45,11 +43,12 @@ public class KafkaProcessors {
 		this.kafkaListenerEndpointRegistry = kafkaListenerEndpointRegistry;
 	}
 
-	private final TaskExecutor exec = new SimpleAsyncTaskExecutor();
 	private final ScheduledExecutorService scheduledExecutorService = new ScheduledThreadPoolExecutor(1);
 
 
-	@KafkaListener(id = "batchProcessor", topics = "batch_processor_topic", properties = {"max.poll.records=5"})
+	@KafkaListener(id = "batchProcessor", topics = "batch_processor_topic",
+			concurrency = "3",
+			properties = {"max.poll.records=2"})
 	public void batchProcessingKafkaListener(Foo2 foo) {
 		System.out.println("Received a batch message: " + foo);
 		this.totalProcessedMessages.incrementAndGet();

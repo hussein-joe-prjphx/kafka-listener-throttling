@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 /**
  * @author Gary Russell
  * @since 2.2.1
@@ -37,13 +39,15 @@ public class Controller {
 	@PostMapping(path = "/send/batch/{size}")
 	public void sendFoo(@PathVariable int size) {
 		for (int i = 0; i < size; i++) {
-			this.template.send("batch_processor_topic", new Foo1(String.valueOf(i)));
+			this.template.send("batch_processor_topic", UUID.randomUUID().toString(),
+					new Foo1(String.valueOf(i)));
 		}
 	}
 
 	@PostMapping(path = "/send/realtime/{what}")
 	public void sendBar(@PathVariable String what) {
-		this.template.send("realtime_topic", new Bar1(what));
+		this.template.send("realtime_topic", UUID.randomUUID().toString(),
+				new Bar1(what));
 	}
 
 }

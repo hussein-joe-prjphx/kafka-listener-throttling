@@ -22,6 +22,7 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
 
   kafka-create-topics:
     image: confluentinc/cp-kafka:6.2.1
@@ -36,8 +37,8 @@ services:
     # See https://docs.docker.com/compose/startup-order/
     command: "bash -c 'echo Waiting for Kafka to be ready... && \
                          cub kafka-ready -b kafka:29092 1 20 && \
-                         kafka-topics --create --topic batch_processor_topic --if-not-exists --bootstrap-server kafka:9092 --partitions 4 --replication-factor 1 && \
-                         kafka-topics --create --topic realtime_topic --if-not-exists --bootstrap-server kafka:9092 --partitions 4 --replication-factor 1 && \
+                         kafka-topics --create --topic batch_processor_topic --if-not-exists --bootstrap-server kafka:29092 --partitions 6 --replication-factor 1 && \
+                         kafka-topics --create --topic realtime_topic --if-not-exists --bootstrap-server kafka:29092 --partitions 6 --replication-factor 1 && \
                          sleep infinity'"
     environment:
       # The following settings are listed here only to satisfy the image's requirements.
